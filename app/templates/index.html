@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+<title>Todo List</title>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="content">
+    <h1>Todo List</h1>
+
+    {% if tasks|length < 1 %}
+    <h4>There are no tasks</h4>
+
+    {% else %}
+
+    <table>
+        <tr>
+            <th>Task</th>
+            <th>Added</th>
+            <th>Actions</th>
+            <th>Completed</th>
+        </tr>
+
+        {% for task in tasks %}
+            <tr>
+                <td>{{ task.content }}</td>
+                <td>{{ task.date_created.date() }}</td>
+                <td>
+                    <a href="/delete/{{task.id}}">Delete</a>
+                    <br>
+                    <a href="/update/{{task.id}}">Edit</a>
+                </td>
+
+                {% if task.completed == 1 %}
+
+                <td><input type="checkbox" id="completed{{task.id}}" value="{{task.id}}" onclick="completed_status(this, '{{task.id}}')" checked></td>
+
+                {% else %}
+
+                <td><input type="checkbox" id="completed{{task.id}}" value="{{task.id}}" onclick="completed_status(this, '{{task.id}}')"></td>
+
+                {% endif %}
+                
+            </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    <br><br>
+
+    <form action="/" method="post">
+        <input type="text" name="content" id="content">
+        <input type="submit" value="Add Task">
+    </form>
+</div>
+
+{% endblock %}

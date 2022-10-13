@@ -1,0 +1,22 @@
+version: '3'
+services:
+  flask-app:
+    container_name: flask_con
+    image: docker.io/library/todolist:1.0
+    ports:
+      - 5000:5000
+    environment:
+      - FLASK_DEBUG=1
+  todolist-db:
+    container_name: mysql_db
+    build: mysql-server
+    image: mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysql
+    volumes:
+      - mysql-data:/var/lib/mysql
+volumes:
+  mysql-data:
+    driver: local
